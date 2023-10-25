@@ -1,0 +1,30 @@
+.documentFrame{
+    border:5px solid black;
+    text-align: center
+}
+
+.documentCategory{
+    border: 5px solid black;
+     margin: auto;
+     display: inline-block;
+     line-height:20px;
+     padding:10px;
+     border-bottom-color: transparent;
+ }
+
+ .documentHats{
+    border-radius: 10px;
+    margin: auto;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: #a3a2a2
+ }
+
+ .linkDiv{
+    color: black;
+ }
+
+ .linkDiv:hover{
+    color: black;
+ }
