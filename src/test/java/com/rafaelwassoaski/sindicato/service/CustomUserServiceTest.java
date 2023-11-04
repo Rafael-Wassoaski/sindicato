@@ -3,12 +3,11 @@ package com.rafaelwassoaski.sindicato.service;
 
 import com.rafaelwassoaski.sindicato.dto.UserDTO;
 import com.rafaelwassoaski.sindicato.entity.Address;
-import com.rafaelwassoaski.sindicato.entity.User;
+import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.EmailAlreadyInUseException;
 import com.rafaelwassoaski.sindicato.exceptions.EmptyPasswordException;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserServiceTest {
+public class CustomUserServiceTest {
 
     @Autowired
     private UserService userService;
@@ -36,10 +35,10 @@ public class UserServiceTest {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
         UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
 
-        User user = userService.createUser(userDTO);
-        User databaseUser = userRepository.getReferenceById(user.getId());
+        CustomUser customUser = userService.createUser(userDTO);
+        CustomUser databaseCustomUser = userRepository.getReferenceById(customUser.getId());
 
-        Assertions.assertNotNull(databaseUser);
+        Assertions.assertNotNull(databaseCustomUser);
     }
 
     @Test
@@ -65,9 +64,20 @@ public class UserServiceTest {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
         UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
 
-        User user = userService.createUser(userDTO);
-        User databaseUser = userService.findUserById(user.getId());
+        CustomUser customUser = userService.createUser(userDTO);
+        CustomUser databaseCustomUser = userService.findUserById(customUser.getId());
 
-        Assertions.assertNotNull(databaseUser);
+        Assertions.assertNotNull(databaseCustomUser);
+    }
+
+    @Test
+    public void shouldGetUserByUsername() throws BaseException {
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
+
+        CustomUser customUser = userService.createUser(userDTO);
+        CustomUser databaseCustomUser = userService.findUserByEmail(customUser.getEmail());
+
+        Assertions.assertNotNull(databaseCustomUser);
     }
 }

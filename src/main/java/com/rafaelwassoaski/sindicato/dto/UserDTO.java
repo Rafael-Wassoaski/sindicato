@@ -1,12 +1,9 @@
 package com.rafaelwassoaski.sindicato.dto;
 
 import com.rafaelwassoaski.sindicato.entity.Address;
-import com.rafaelwassoaski.sindicato.entity.DocumentType;
-import com.rafaelwassoaski.sindicato.entity.User;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
-import java.time.LocalDateTime;
 
 public class UserDTO {
     @Column
@@ -31,6 +28,10 @@ public class UserDTO {
         this.email = email;
         this.address = address;
         this.cpf = cpf;
+    }
+
+    public UserDTO() {
+
     }
 
 

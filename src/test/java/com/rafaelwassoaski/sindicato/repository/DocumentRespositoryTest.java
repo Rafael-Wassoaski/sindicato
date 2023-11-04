@@ -1,9 +1,9 @@
 package com.rafaelwassoaski.sindicato.repository;
 
 import com.rafaelwassoaski.sindicato.entity.Address;
+import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.entity.Document;
 import com.rafaelwassoaski.sindicato.entity.DocumentType;
-import com.rafaelwassoaski.sindicato.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ public class DocumentRespositoryTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        User user = new User("Name1", "Password", "email@email.com", address, "000.000.000-00");
-        User createdUser =  userRepository.save(user);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser createdCustomUser =  userRepository.save(customUser);
 
-        Document doc = new Document("Name", createdDocType, createdUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document doc = new Document("Name", createdDocType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
         Document createdDoc = documentRepository.save(doc);
         Document databaseDoc = documentRepository.getReferenceById(createdDoc.getId());
 

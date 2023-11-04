@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "custom_user")
-public class User {
+public class CustomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,9 +22,9 @@ public class User {
     private Address address;
     @Column
     private String cpf;
-    @OneToMany(mappedBy = "documentUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "documentCustomUser", cascade = CascadeType.ALL)
     private Set<Document> documents;
-    public User(String name, String password, String email, Address address, String cpf) {
+    public CustomUser(String name, String password, String email, Address address, String cpf) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -32,7 +32,7 @@ public class User {
         this.cpf = cpf;
     }
 
-    public User(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents) {
+    public CustomUser(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -42,7 +42,7 @@ public class User {
         this.documents = documents;
     }
 
-    public User(UserDTO userDTO) {
+    public CustomUser(UserDTO userDTO) {
         this.name = userDTO.getName();
         this.password = userDTO.getPassword();
         this.email = userDTO.getEmail();
@@ -50,7 +50,7 @@ public class User {
         this.cpf = userDTO.getCpf();
     }
 
-    public User() {
+    public CustomUser() {
     }
 
     public Long getId() {

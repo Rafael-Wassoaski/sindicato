@@ -1,33 +1,31 @@
 package com.rafaelwassoaski.sindicato.dto;
 
+import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.entity.DocumentType;
-import com.rafaelwassoaski.sindicato.entity.User;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 public class DocumentDTO {
     private String name;
     private DocumentType documentType;
-    private User documentUser;
+    private CustomUser documentCustomUser;
     private long documentValue;
     private LocalDateTime createdAt;
     private String obs;
 
-    public DocumentDTO(String name, DocumentType documentType, User documentUser, long documentValue, LocalDateTime createdAt, String obs) {
+    public DocumentDTO(String name, DocumentType documentType, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt, String obs) {
         this.name = name;
         this.documentType = documentType;
-        this.documentUser = documentUser;
+        this.documentCustomUser = documentCustomUser;
         this.documentValue = documentValue;
         this.createdAt = createdAt;
         this.obs = obs;
     }
 
-    public DocumentDTO(String name, DocumentType documentType, User documentUser, long documentValue, LocalDateTime createdAt) {
+    public DocumentDTO(String name, DocumentType documentType, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt) {
         this.name = name;
         this.documentType = documentType;
-        this.documentUser = documentUser;
+        this.documentCustomUser = documentCustomUser;
         this.documentValue = documentValue;
         this.createdAt = createdAt;
     }
@@ -48,12 +46,12 @@ public class DocumentDTO {
         this.documentType = documentType;
     }
 
-    public User getDocumentUser() {
-        return documentUser;
+    public CustomUser getDocumentUser() {
+        return documentCustomUser;
     }
 
-    public void setDocumentUser(User documentUser) {
-        this.documentUser = documentUser;
+    public void setDocumentUser(CustomUser documentCustomUser) {
+        this.documentCustomUser = documentCustomUser;
     }
 
     public long getDocumentValue() {

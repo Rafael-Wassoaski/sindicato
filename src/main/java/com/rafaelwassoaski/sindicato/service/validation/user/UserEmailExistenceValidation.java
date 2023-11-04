@@ -1,6 +1,6 @@
 package com.rafaelwassoaski.sindicato.service.validation.user;
 
-import com.rafaelwassoaski.sindicato.entity.User;
+import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.EmailAlreadyInUseException;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
@@ -8,7 +8,7 @@ import com.rafaelwassoaski.sindicato.service.validation.ChainValidation;
 
 import java.util.Optional;
 
-public class UserEmailExistenceValidation extends ChainValidation<User> {
+public class UserEmailExistenceValidation extends ChainValidation<CustomUser> {
 
     private UserRepository userRepository;
 
@@ -18,8 +18,8 @@ public class UserEmailExistenceValidation extends ChainValidation<User> {
     }
 
     @Override
-    public boolean isValid(User objectToValidate) throws BaseException {
-        Optional<User> optionalDatabaseUser = userRepository.findByEmail(objectToValidate.getEmail());
+    public boolean isValid(CustomUser objectToValidate) throws BaseException {
+        Optional<CustomUser> optionalDatabaseUser = userRepository.findByEmail(objectToValidate.getEmail());
 
         if (optionalDatabaseUser.isPresent()) {
             throw new EmailAlreadyInUseException();

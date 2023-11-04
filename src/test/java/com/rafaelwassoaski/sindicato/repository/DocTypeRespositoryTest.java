@@ -1,8 +1,6 @@
 package com.rafaelwassoaski.sindicato.repository;
 
-import com.rafaelwassoaski.sindicato.entity.Address;
 import com.rafaelwassoaski.sindicato.entity.DocumentType;
-import com.rafaelwassoaski.sindicato.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

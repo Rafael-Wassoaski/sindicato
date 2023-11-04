@@ -4,7 +4,6 @@ import com.rafaelwassoaski.sindicato.dto.DocumentDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "syndicate_document")
@@ -17,7 +16,7 @@ public class Document {
     @ManyToOne
     private DocumentType documentType;
     @ManyToOne
-    private User documentUser;
+    private CustomUser documentCustomUser;
     @Column
     private long documentValue;
     @Column
@@ -25,20 +24,20 @@ public class Document {
     @Column
     private String obs;
 
-    public Document(String name, DocumentType documentType, User user, long value, LocalDateTime createdAt, String obs) {
+    public Document(String name, DocumentType documentType, CustomUser customUser, long value, LocalDateTime createdAt, String obs) {
         this.name = name;
         this.documentType = documentType;
-        this.documentUser = user;
+        this.documentCustomUser = customUser;
         this.documentValue = value;
         this.createdAt = createdAt;
         this.obs = obs;
     }
 
-    public Document(Long id, String name, DocumentType documentType, User user, long value, LocalDateTime createdAt, String obs) {
+    public Document(Long id, String name, DocumentType documentType, CustomUser customUser, long value, LocalDateTime createdAt, String obs) {
         this.id = id;
         this.name = name;
         this.documentType = documentType;
-        this.documentUser = user;
+        this.documentCustomUser = customUser;
         this.documentValue = value;
         this.createdAt = createdAt;
         this.obs = obs;
@@ -47,7 +46,7 @@ public class Document {
     public Document(DocumentDTO documentDTO) {
         this.name = documentDTO.getName();
         this.documentType = documentDTO.getDocumentType();
-        this.documentUser = documentDTO.getDocumentUser();
+        this.documentCustomUser = documentDTO.getDocumentUser();
         this.documentValue = documentDTO.getDocumentValue();
         this.createdAt = documentDTO.getCreatedAt();
         this.obs = documentDTO.getObs();
@@ -63,8 +62,8 @@ public class Document {
         return documentType;
     }
 
-    public User getDocumentUser() {
-        return this.documentUser;
+    public CustomUser getDocumentUser() {
+        return this.documentCustomUser;
     }
 
     public long getDocumentValue() {

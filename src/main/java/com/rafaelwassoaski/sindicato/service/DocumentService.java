@@ -3,11 +3,9 @@ package com.rafaelwassoaski.sindicato.service;
 import com.rafaelwassoaski.sindicato.dto.DocumentDTO;
 import com.rafaelwassoaski.sindicato.entity.Document;
 import com.rafaelwassoaski.sindicato.entity.DocumentType;
-import com.rafaelwassoaski.sindicato.entity.User;
+import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
-import com.rafaelwassoaski.sindicato.exceptions.DocTypeNotFoundException;
 import com.rafaelwassoaski.sindicato.exceptions.ResourceNotFoundException;
-import com.rafaelwassoaski.sindicato.exceptions.UserNotFoundException;
 import com.rafaelwassoaski.sindicato.repository.DocumentRepository;
 import com.rafaelwassoaski.sindicato.repository.DocumentTypeRepository;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
@@ -36,13 +34,13 @@ public class DocumentService {
 
     public Document createDocument(DocumentDTO documentDTO) throws BaseException {
         Document documentFromDTO = new Document(documentDTO);
-        User dtoUser = documentDTO.getDocumentUser();
+        CustomUser dtoCustomUser = documentDTO.getDocumentUser();
         DocumentType dtoDocType = documentDTO.getDocumentType();
 
         ChainValidation userValidation = this.createUserValidation();
         ChainValidation docTypeValidation = this.createDocTypeValidation();
 
-        userValidation.isValid(dtoUser);
+        userValidation.isValid(dtoCustomUser);
         docTypeValidation.isValid(dtoDocType);
 
 
@@ -72,8 +70,8 @@ public class DocumentService {
     }
 
     public List<Document> findDocumentUserId(Long id) throws ResourceNotFoundException {
-        User user = userService.findUserById(id);
-        List<Document> userDocuments = documentRepository.findAllByDocumentUser(user);
+        CustomUser customUser = userService.findUserById(id);
+        List<Document> userDocuments = documentRepository.findAllByDocumentCustomUser(customUser);
         return userDocuments;
     }
 }
