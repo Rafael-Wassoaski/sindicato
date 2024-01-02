@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Sindicato</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
+    <script src='/main.js'></script>
+</head>
+<body>
+    <form action="#" th:action="@{/documents/newDoc}" th:object="${documentDTO}" method="post">
+        <div th:replace="fragments/Header"></div>
+
+        <p>Nome do usuário: </p>
+        <p th:text="*{documentCustomUser.name}" class="p-2 bd-highlight"></p>
+
+        <label for="docType">Tipo do documento: </label>
+        <select th:field="*{documentTypeId}" name="docType" >
+            <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"/>
+        </select>
+
+        <label for="value">Valor</label>
+        <input type="number" name="value" th:field="*{documentValue}"/>
+
+        <label for="obs">OBS</label>
+        <textarea  type="te" name="obs" th:field="*{obs}"/>
+
+        <input type="submit" value="Cadastrar">
+    </form>
+</body>
+
+</html>

@@ -31,7 +31,7 @@ public class UserDTO {
     }
 
     public UserDTO() {
-
+        this.address = new Address();
     }
 
 

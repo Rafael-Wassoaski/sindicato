@@ -13,7 +13,10 @@ public class UserPasswordValidation extends ChainValidation<CustomUser> {
 
     @Override
     public boolean isValid(CustomUser objectToValidate) throws BaseException {
+        System.out.println("AAAA " + objectToValidate.getPassword());
+
         if (objectToValidate.getPassword() == null || objectToValidate.getPassword().isEmpty()) {
+            System.out.println("AAAA ENTREI");
             throw new EmptyPasswordException();
         }
 

@@ -20,7 +20,7 @@ public class DocumentTest {
 
         Assertions.assertEquals("Name", doc.getName());
         Assertions.assertEquals(docType.getName(), doc.getDocumentType().getName());
-        Assertions.assertEquals(customUser.getName(), doc.getDocumentUser().getName());
+        Assertions.assertEquals(customUser.getName(), doc.getDocumentCustomUser().getName());
         Assertions.assertEquals(1000L, doc.getDocumentValue());
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     public List<Document> findAllByDocumentCustomUser(CustomUser documentCustomUser);
+
+    public int countByName(String name);
 }

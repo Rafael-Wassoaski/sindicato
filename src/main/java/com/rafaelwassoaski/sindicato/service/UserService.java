@@ -5,9 +5,11 @@ import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.ResourceNotFoundException;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
+import com.rafaelwassoaski.sindicato.service.secutiry.JWTService;
 import com.rafaelwassoaski.sindicato.service.validation.ChainValidation;
 import com.rafaelwassoaski.sindicato.service.validation.user.UserEmailExistenceValidation;
 import com.rafaelwassoaski.sindicato.service.validation.user.UserPasswordValidation;
+import com.rafaelwassoaski.sindicato.util.CookiesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -17,33 +19,41 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
-    @Lazy
     private PasswordEncoder userEncoder;
+    @Autowired
+    private JWTService jwtService;
 
     public CustomUser createUser(UserDTO userDTO) throws BaseException {
         CustomUser customUser = new CustomUser(userDTO);
-
         ChainValidation userValidation = this.createUserValidation();
 
         userValidation.isValid(customUser);
 
-        return userRepository.save(customUser);
+        CustomUser encodeCustomUser = this.encodeUserData(userDTO);
+
+        return userRepository.save(encodeCustomUser);
     }
 
     private ChainValidation createUserValidation(){
         UserEmailExistenceValidation userEmailExistenceValidation = new UserEmailExistenceValidation(null, userRepository);
         UserPasswordValidation userPasswordValidation = new UserPasswordValidation(userEmailExistenceValidation);
 
-
         return userPasswordValidation;
+    }
+
+    private CustomUser encodeUserData(UserDTO userDTO){
+        String encodedPassword = userEncoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encodedPassword);
+
+        return new CustomUser(userDTO);
     }
 
     public CustomUser findUserById(Long id) throws ResourceNotFoundException {
@@ -60,7 +70,7 @@ public class UserService {
         Optional<CustomUser> optionalUser = userRepository.findByEmail(email);
 
         if(!optionalUser.isPresent()){
-            throw new ResourceNotFoundException(String.format("Não foi possível encontrar o usuário com e-mail: %d", email));
+            throw new ResourceNotFoundException(String.format("Não foi possível encontrar o usuário com e-mail: %s", email));
         }
 
         return optionalUser.get();
@@ -88,5 +98,35 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
+    }
+
+    public void sameUser(Long id, HttpServletRequest request) throws ResourceNotFoundException {
+        Optional<String> optionalToken = CookiesUtils.extractTokenCookie(request);
+
+        if(!optionalToken.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        CustomUser customUser = this.findUserById(id);
+
+        String token = optionalToken.get();
+        String username = jwtService.getUsername(token);
+
+        if(!username.equals(customUser.getEmail())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    public CustomUser findUserByCookie(HttpServletRequest request) {
+        String token = CookiesUtils.extractTokenCookie(request).get();
+        String email = jwtService.getUsername(token);
+
+        Optional<CustomUser> optionalCustomUser = this.userRepository.findByEmail(email);
+
+        if(!optionalCustomUser.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return optionalCustomUser.get();
     }
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Sindicato</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
+    <script src='/main.js'></script>
+</head>
+<body>
+<div th:replace="fragments/Header"></div>
+<div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column">
+
+    <div>
+        <div>
+            <p th:text="'Nome do documento: '+ ${document.name}" class="documentCategory"></p>
+            <p th:text="'Observações: ' + ${document.obs}" class="documentCategory"></p>
+            <p th:text="'Valor do documento: ' + ${document.documentValue}" class="documentCategory"></p>
+
+        </div>
+        <div class="d-flex flex-row bd-highlight">
+            <p th:text="'Criado em: ' + ${document.createdAt}" class="d-flex justify-content-start w-100"></p>
+            <p th:text="'Usuário solicitante: ' + ${document.documentCustomUser.name}" class="d-flex justify-content-end"></p>
+        </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

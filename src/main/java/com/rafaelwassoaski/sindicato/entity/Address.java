@@ -40,5 +40,23 @@ public class Address {
         return country;
     }
 
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }

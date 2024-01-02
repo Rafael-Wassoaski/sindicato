@@ -3,42 +3,37 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Dev Journal</title>
+    <title>Sindicato</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' th:href="@{/main.css}">
-    <script src='main.js'></script>
+    <script src='/main.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <header style="background-color: orangered;">
     <div class="d-flex flex-row bd-highlight mb-3">
-        <h1 class="p-2 w-100 bd-highlight">Dev jornal</h1>
+        <h1 class="p-2 w-100 bd-highlight">Sindicato</h1>
         <div class="d-flex align-items-start">
-            <div  class="ms-auto p-2 bd-highlight">
-                <a th:href="@{/articles}">Articles</a>
-            </div>
-            <div  class="ms-auto p-2 bd-highlight">
-                <a th:href="@{/categories}">Categories</a>
-            </div>
-            <div  class="ms-auto p-2 bd-highlight">
-                <a th:href="@{/hats}">Hats</a>
+            <div  sec:authorize="isAuthenticated()" class="ms-auto p-2 bd-highlight">
+                <a th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()})}">Meus documentos</a>
             </div>
         </div>
         <div sec:authorize="isAnonymous()" class="d-flex bd-highlight mb-3">
-            <a th:href="@{/users/new}" class="p-2 bd-highlight">New User</a>
+            <a th:href="@{/users/create}" class="p-2 bd-highlight">Cadastre-se</a>
             <a th:href="@{/users/login}" class="p-2 bd-highlight">Login</a>
         </div>
 
         <div sec:authorize="isAuthenticated()" class="ms-auto p-2 bd-highlight">
-            <a th:href="@{/articles/new}">New Article</a>
+            <a th:href="@{/documents/create}">Novo documento</a>
         </div>
 
         <div sec:authorize="isAuthenticated()" class="d-flex bd-highlight mb-3">
-            <p class="p-2 bd-highlight">Username:
-<!--            <p th:text="${#authentication.name}" class="p-2 bd-highlight"></p>-->
+            <p class="p-2 bd-highlight">Usuário:
+            <p th:text="${#authentication.getPrincipal().getName()}" class="p-2 bd-highlight"></p>
             </p>
         </div>
     </div>

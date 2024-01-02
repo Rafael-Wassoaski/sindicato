@@ -1,33 +1,39 @@
 package com.rafaelwassoaski.sindicato.dto;
 
 import com.rafaelwassoaski.sindicato.entity.CustomUser;
-import com.rafaelwassoaski.sindicato.entity.DocumentType;
 
 import java.time.LocalDateTime;
 
 public class DocumentDTO {
     private String name;
-    private DocumentType documentType;
+    private Long documentTypeId;
     private CustomUser documentCustomUser;
     private long documentValue;
     private LocalDateTime createdAt;
     private String obs;
 
-    public DocumentDTO(String name, DocumentType documentType, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt, String obs) {
+    public DocumentDTO(String name, Long documentTypeId, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt, String obs) {
         this.name = name;
-        this.documentType = documentType;
+        this.documentTypeId = documentTypeId;
         this.documentCustomUser = documentCustomUser;
         this.documentValue = documentValue;
         this.createdAt = createdAt;
         this.obs = obs;
     }
 
-    public DocumentDTO(String name, DocumentType documentType, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt) {
+    public DocumentDTO(String name, Long documentTypeId, CustomUser documentCustomUser, long documentValue, LocalDateTime createdAt) {
         this.name = name;
-        this.documentType = documentType;
+        this.documentTypeId = documentTypeId;
         this.documentCustomUser = documentCustomUser;
         this.documentValue = documentValue;
         this.createdAt = createdAt;
+    }
+
+    public DocumentDTO(CustomUser documentCustomUser) {
+        this.documentCustomUser = documentCustomUser;
+    }
+
+    public DocumentDTO() {
     }
 
     public String getName() {
@@ -38,15 +44,15 @@ public class DocumentDTO {
         this.name = name;
     }
 
-    public DocumentType getDocumentType() {
-        return documentType;
+    public Long getDocumentTypeId() {
+        return documentTypeId;
     }
 
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
+    public void setDocumentTypeId(Long longId) {
+        this.documentTypeId = longId;
     }
 
-    public CustomUser getDocumentUser() {
+    public CustomUser getDocumentCustomUser() {
         return documentCustomUser;
     }
 

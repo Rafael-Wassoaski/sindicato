@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Sindicato</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
+    <script src='/main.js'></script>
+</head>
+<body>
+    <form action="#" th:action="@{/users/newUser}" th:object="${userDTO}" method="post">
+        <div th:replace="fragments/Header"></div>
+
+        <label for="name">Nome completo</label>
+        <input type="text" name="name" th:field="*{name}"/>
+
+        <label for="cpf">CPF</label>
+        <input type="text" name="cpf" th:field="*{cpf}"/>
+
+        <label for="email">E-mail</label>
+        <input type="email" name="email" th:field="*{email}"/>
+
+        <label for="password">Senha</label>
+        <input type="password" name="password" th:field="*{password}"/>
+
+        <label for="street">Rua</label>
+        <input type="text" name="street" th:field="*{address.street}"/>
+
+        <label for="houseNumber">Número</label>
+        <input type="text" name="houseNumber" th:field="*{address.houseNumber}"/>
+
+        <label for="city">Cidade</label>
+        <input type="text" name="city" th:field="*{address.city}"/>
+
+        <label for="state">Estado</label>
+        <input type="text" name="state" th:field="*{address.state}"/>
+
+        <label for="country">País</label>
+        <input type="text" name="country" th:field="*{address.country}"/>
+
+
+        <input type="submit" value="Cadastrar">
+    </form>
+</body>
+
+</html>

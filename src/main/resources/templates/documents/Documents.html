@@ -6,26 +6,35 @@
     <title>Sindicato</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
-    <script src='main.js'></script>
+    <script src='/main.js'></script>
 </head>
 <body>
 <div th:replace="fragments/Header"></div>
 <div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column" >
-    <div th:each="document : ${documents}">
-        <a class="linkDiv" th:href="@{'/documents/'+${document.id}}">
-            <div>
-                <p th:text="${document.name}" class="documentCategory"></p>
-                <p th:text="${document.documentCustomUser.name}" class="documentCategory"></p>
-                <p th:text="${document.obs}" class="documentCategory"></p>
-                <p th:text="${document.documentValue}" class="documentCategory"></p>
 
-            </div>
-            <div class="d-flex flex-row bd-highlight">
-                <p th:text="${document.createdAt}" class="d-flex justify-content-start w-100"></p>
-                <p th:text="${document.documentCustomUser.name}" class="d-flex justify-content-end">Usuário solicitante</p>
-            </div>
-        </a>
+    <div th:if="${not #lists.isEmpty(documents)}">
+        <div th:each="document : ${documents}">
+            <a class="linkDiv" th:href="@{/documents/myDocs/{id}/{docId}(id=${#authentication.getPrincipal().getId()},docId=${document.id})}">
+                <div>
+                    <p th:text="${document.name}" class="documentCategory"></p>
+                    <p th:text="${document.documentCustomUser.name}" class="documentCategory"></p>
+                    <p th:text="${document.obs}" class="documentCategory"></p>
+                    <p th:text="${document.documentValue}" class="documentCategory"></p>
+
+                </div>
+                <div class="d-flex flex-row bd-highlight">
+                    <p th:text="${document.createdAt}" class="d-flex justify-content-start w-100"></p>
+                    <p th:text="${document.documentCustomUser.name}" class="d-flex justify-content-end">Usuário solicitante</p>
+                </div>
+            </a>
+        </div>
     </div>
+
+    <div th:unless="${not #lists.isEmpty(documents)}">
+        <p >Não existem documentos cadastrados</p>
+    </div>
+
+
 
 </div>
 </body>

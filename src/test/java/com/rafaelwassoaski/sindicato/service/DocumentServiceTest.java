@@ -52,7 +52,7 @@ public class DocumentServiceTest {
         CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
-        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
         Document document = documentService.createDocument(documentDTO);
 
         Document databaseDocument = documentRepository.getReferenceById(document.getId());
@@ -69,7 +69,7 @@ public class DocumentServiceTest {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
         CustomUser customUser = new CustomUser(1L, "Name1", "Password", "email@email.com", address, "000.000.000-00", new HashSet<>());
 
-        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType, customUser, 1000L, LocalDateTime.now(), "No OBS");
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), customUser, 1000L, LocalDateTime.now(), "No OBS");
 
         Assertions.assertThrows(UserNotFoundException.class, () -> documentService.createDocument(documentDTO));
     }
@@ -82,7 +82,7 @@ public class DocumentServiceTest {
         CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
-        DocumentDTO documentDTO = new DocumentDTO("Name", docType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        DocumentDTO documentDTO = new DocumentDTO("Name", docType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
 
         Assertions.assertThrows(DocTypeNotFoundException.class, () -> documentService.createDocument(documentDTO));
     }
@@ -96,7 +96,7 @@ public class DocumentServiceTest {
         CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
-        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
         Document document = documentService.createDocument(documentDTO);
 
         Document createdDocument = documentService.findDocumentById(document.getId());
@@ -120,7 +120,7 @@ public class DocumentServiceTest {
         CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
-        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
         Document document = documentService.createDocument(documentDTO);
         Document document2 = documentService.createDocument(documentDTO);
 

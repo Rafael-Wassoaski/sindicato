@@ -43,10 +43,10 @@ public class Document {
         this.obs = obs;
     }
 
-    public Document(DocumentDTO documentDTO) {
+    public Document(DocumentDTO documentDTO, DocumentType documentType) {
         this.name = documentDTO.getName();
-        this.documentType = documentDTO.getDocumentType();
-        this.documentCustomUser = documentDTO.getDocumentUser();
+        this.documentType = documentType;
+        this.documentCustomUser = documentDTO.getDocumentCustomUser();
         this.documentValue = documentDTO.getDocumentValue();
         this.createdAt = documentDTO.getCreatedAt();
         this.obs = documentDTO.getObs();
@@ -62,7 +62,7 @@ public class Document {
         return documentType;
     }
 
-    public CustomUser getDocumentUser() {
+    public CustomUser getDocumentCustomUser() {
         return this.documentCustomUser;
     }
 
