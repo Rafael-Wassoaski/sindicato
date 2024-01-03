@@ -24,7 +24,7 @@
                 </div>
                 <div class="d-flex flex-row bd-highlight">
                     <p th:text="${document.createdAt}" class="d-flex justify-content-start w-100"></p>
-                    <p th:text="${document.documentCustomUser.name}" class="d-flex justify-content-end">Usuário solicitante</p>
+                    <p th:text="'Usuário solicitante ' + ${document.documentCustomUser.name}" class="d-flex justify-content-end"></p>
                 </div>
             </a>
         </div>

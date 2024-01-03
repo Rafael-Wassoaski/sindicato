@@ -14,10 +14,7 @@ import com.rafaelwassoaski.sindicato.service.secutiry.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +41,16 @@ public class DocumentController {
         userService.sameUser(id, request);
 
         List<Document> documents = documentService.findDocumentUserId(id);
+
+        model.addAttribute("documents", documents);
+
+        return "documents/Documents";
+    }
+
+    @GetMapping("/allDocuments/")
+    public String getAllDocuments(Model model, HttpServletRequest request) throws BaseException {
+        userService.userIsAdmin(request);
+        List<Document> documents = documentService.findAllDocuments();
 
         model.addAttribute("documents", documents);
 
@@ -89,5 +96,29 @@ public class DocumentController {
         model.addAttribute("document", document);
 
         return "documents/Document";
+    }
+
+    @GetMapping("/myDocs/{id}/{documentId}/update")
+    public String updateDocumentById(@PathVariable Long id, @PathVariable Long documentId, Model model, HttpServletRequest request) throws BaseException {
+        userService.sameUser(id, request);
+
+        Document document = documentService.findDocumentById(documentId);
+        DocumentDTO documentDTO = new DocumentDTO(document);
+
+        model.addAttribute("documentDTO", documentDTO);
+        model.addAttribute("documentId", documentId);
+
+        return "documents/Update";
+    }
+
+    @PostMapping("/myDocs/{id}/{documentId}/updateDoc")
+    public String updateDocument(@PathVariable Long id, @PathVariable Long documentId, DocumentDTO documentDTO,  Model model, HttpServletRequest request) throws BaseException {
+        userService.sameUserOrAdmin(id, request);
+
+        Document document = documentService.updateDocument(documentId, documentDTO);
+
+        model.addAttribute("document", document);
+
+        return this.getMyDocumentById(id, documentId, model, request);
     }
 }

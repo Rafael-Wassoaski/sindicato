@@ -52,6 +52,15 @@ public class Document {
         this.obs = documentDTO.getObs();
     }
 
+    public Document updateDocument(DocumentDTO documentDTO, DocumentType documentType) {
+        this.name = documentDTO.getName();
+        this.documentType = documentType;
+        this.documentValue = documentDTO.getDocumentValue();
+        this.obs = documentDTO.getObs();
+
+        return this;
+    }
+
     public Document() {}
 
     public String getName() {

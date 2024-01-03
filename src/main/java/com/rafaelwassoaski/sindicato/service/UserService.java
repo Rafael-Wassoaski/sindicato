@@ -100,21 +100,40 @@ public class UserService {
 
     }
 
+    public void sameUserOrAdmin(Long id, HttpServletRequest request) throws ResourceNotFoundException {
+        this.userIsAdmin(request);
+        this.sameUser(id, request);
+    }
+
+    public void userIsAdmin(HttpServletRequest request) throws ResourceNotFoundException {
+        String token = this.getToken(request);
+        String username = jwtService.getUsername(token);
+        CustomUser customUser = this.findUserByEmail(username);
+
+        if(!customUser.isAdmin()){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     public void sameUser(Long id, HttpServletRequest request) throws ResourceNotFoundException {
+        CustomUser customUser = this.findUserById(id);
+
+        String token = this.getToken(request);
+        String username = jwtService.getUsername(token);
+
+        if(!username.equals(customUser.getEmail())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    private String getToken(HttpServletRequest request){
         Optional<String> optionalToken = CookiesUtils.extractTokenCookie(request);
 
         if(!optionalToken.isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        CustomUser customUser = this.findUserById(id);
-
-        String token = optionalToken.get();
-        String username = jwtService.getUsername(token);
-
-        if(!username.equals(customUser.getEmail())){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+        return optionalToken.get();
     }
 
     public CustomUser findUserByCookie(HttpServletRequest request) {

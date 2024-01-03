@@ -28,7 +28,7 @@ public class DocumentRespositoryTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         Document doc = new Document("Name", createdDocType, createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");

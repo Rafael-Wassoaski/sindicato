@@ -22,17 +22,20 @@ public class CustomUser {
     private Address address;
     @Column
     private String cpf;
+    @Column
+    private boolean isAdmin;
     @OneToMany(mappedBy = "documentCustomUser", cascade = CascadeType.ALL)
     private Set<Document> documents;
-    public CustomUser(String name, String password, String email, Address address, String cpf) {
+    public CustomUser(String name, String password, String email, Address address, String cpf, Boolean isAdmin) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.address = address;
         this.cpf = cpf;
+        this.isAdmin = isAdmin;
     }
 
-    public CustomUser(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents) {
+    public CustomUser(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents, Boolean isAdmin) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -40,6 +43,7 @@ public class CustomUser {
         this.address = address;
         this.cpf = cpf;
         this.documents = documents;
+        this.isAdmin = isAdmin;
     }
 
     public CustomUser(UserDTO userDTO) {
@@ -48,6 +52,7 @@ public class CustomUser {
         this.email = userDTO.getEmail();
         this.address = userDTO.getAddress();
         this.cpf = userDTO.getCpf();
+        this.isAdmin = false;
     }
 
     public CustomUser() {
@@ -79,6 +84,10 @@ public class CustomUser {
 
     public Set<Document> getDocuments() {
         return documents;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     public void addDocument(Document document){

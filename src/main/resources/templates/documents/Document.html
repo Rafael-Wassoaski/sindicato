@@ -13,6 +13,7 @@
 <div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column">
 
     <div>
+        <a class="linkDiv" th:href="@{/documents/myDocs/{id}/{docId}/update (id=${#authentication.getPrincipal().getId()},docId=${document.id})}">Atualizar</a>
         <div>
             <p th:text="'Nome do documento: '+ ${document.name}" class="documentCategory"></p>
             <p th:text="'Observações: ' + ${document.obs}" class="documentCategory"></p>
@@ -23,7 +24,7 @@
             <p th:text="'Criado em: ' + ${document.createdAt}" class="d-flex justify-content-start w-100"></p>
             <p th:text="'Usuário solicitante: ' + ${document.documentCustomUser.name}" class="d-flex justify-content-end"></p>
         </div>
-        </a>
+
     </div>
 </div>
 </body>

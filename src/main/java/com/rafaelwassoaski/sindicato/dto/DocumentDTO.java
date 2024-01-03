@@ -1,6 +1,7 @@
 package com.rafaelwassoaski.sindicato.dto;
 
 import com.rafaelwassoaski.sindicato.entity.CustomUser;
+import com.rafaelwassoaski.sindicato.entity.Document;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +35,15 @@ public class DocumentDTO {
     }
 
     public DocumentDTO() {
+    }
+
+    public DocumentDTO(Document document) {
+        this.name = document.getName();
+        this.documentValue = document.getDocumentValue();
+        this.documentTypeId = document.getDocumentType().getId();
+        this.documentCustomUser = document.getDocumentCustomUser();
+        this.createdAt = document.getCreatedAt();
+        this.obs = document.getObs();
     }
 
     public String getName() {

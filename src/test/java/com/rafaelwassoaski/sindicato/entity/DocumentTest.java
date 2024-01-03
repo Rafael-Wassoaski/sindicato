@@ -15,7 +15,7 @@ public class DocumentTest {
     public void shouldCreateDocumentNameAndType(){
         DocumentType docType = new DocumentType("DocType Name");
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         Document doc = new Document("Name", docType, customUser, 1000L, LocalDateTime.now(), "No OBS");
 
         Assertions.assertEquals("Name", doc.getName());

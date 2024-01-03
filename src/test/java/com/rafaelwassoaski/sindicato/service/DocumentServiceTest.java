@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -67,7 +68,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser(1L, "Name1", "Password", "email@email.com", address, "000.000.000-00", new HashSet<>());
+        CustomUser customUser = new CustomUser(1L, "Name1", "Password", "email@email.com", address, "000.000.000-00", new HashSet<>(), false);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), customUser, 1000L, LocalDateTime.now(), "No OBS");
 
@@ -79,7 +80,7 @@ public class DocumentServiceTest {
         DocumentType docType = new DocumentType(1L, "DocType Name",new HashSet<>());
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", docType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -93,7 +94,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -117,7 +118,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -130,4 +131,24 @@ public class DocumentServiceTest {
         Assertions.assertEquals(2, createdDocuments.size());
     }
 
+    @Test
+    public void shouldUpdateOneDocument() throws BaseException {
+        String updatedDocName = "New updatedName";
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+
+        documentDTO.setName(updatedDocName);
+
+        Document updatedDocument = documentService.updateDocument(document.getId(), documentDTO);
+
+        Assertions.assertEquals(updatedDocument.getName(), updatedDocName);
+        Assertions.assertEquals(updatedDocument.getId(), document.getId());
+    }
 }
