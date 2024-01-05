@@ -51,7 +51,7 @@ public class UserController {
             String token = jwtService.generateToken(customUser);
             response = httpServletService.setTokenCookie(response, token);
 
-            return "redirect:/documents/myDocs/" + customUser.getId();
+            return "redirect:/documents/myDocs/" + customUser.getId() + "?page=0";
         } catch (ResponseStatusException | ResourceNotFoundException e) {
             System.out.println(e);
             throw e;

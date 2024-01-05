@@ -6,34 +6,83 @@
     <title>Sindicato</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/sortable-table.css}">
+    <script th:src="@{/js/sortable-table.js}"></script>
     <script src='/main.js'></script>
 </head>
 <body>
 <div th:replace="fragments/Header"></div>
-<div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column" >
+<div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column">
 
-    <div th:if="${not #lists.isEmpty(documents)}">
-        <div th:each="document : ${documents}">
-            <a class="linkDiv" th:href="@{/documents/myDocs/{id}/{docId}(id=${#authentication.getPrincipal().getId()},docId=${document.id})}">
-                <div>
-                    <p th:text="${document.name}" class="documentCategory"></p>
-                    <p th:text="${document.documentCustomUser.name}" class="documentCategory"></p>
-                    <p th:text="${document.obs}" class="documentCategory"></p>
-                    <p th:text="${document.documentValue}" class="documentCategory"></p>
+    <div class="table-wrap">
+        <table th:if="${not #lists.isEmpty(documents)}" class="searchable sortable">
+            <thead>
+                <tr>
+                    <th aria-sort="ascending">
+                        <button>
+                            Nome do documento
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            Nome do usuário
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </th>
 
-                </div>
-                <div class="d-flex flex-row bd-highlight">
-                    <p th:text="${document.createdAt}" class="d-flex justify-content-start w-100"></p>
-                    <p th:text="'Usuário solicitante ' + ${document.documentCustomUser.name}" class="d-flex justify-content-end"></p>
-                </div>
-            </a>
+                    <th>Observações</th>
+                    <th>
+                        <button>
+                            Valor do documento
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            Data da criação
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            Usuário solicitante
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="document : ${documents}">
+
+                        <!--                <div>-->
+                        <td th:text="${document.name}"></td>
+                        <td th:text="${document.documentCustomUser.name}"></td>
+                        <td th:text="${document.obs}"></td>
+                        <td th:text="${document.documentValue}"></td>
+
+                        <!--                </div>-->
+                        <!--                <div class="d-flex flex-row bd-highlight">-->
+                        <td th:text="${document.createdAt}"></td>
+                        <td th:text="${document.documentCustomUser.name}"></td>
+                        <!--                </div>-->
+                        <td> <a class="linkDiv"
+                                th:href="@{/documents/myDocs/{id}/{docId}(id=${#authentication.getPrincipal().getId()},docId=${document.id})}">Acessar</a>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="#">&laquo;</a>
+        <div class="pagination" th:each="i: ${#numbers.sequence(0, pages)}">
+            <a th:text="${i + 1}" th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${i})}"></a>
         </div>
+        <a href="#">&raquo;</a>
     </div>
 
     <div th:unless="${not #lists.isEmpty(documents)}">
-        <p >Não existem documentos cadastrados</p>
+        <p>Não existem documentos cadastrados</p>
     </div>
-
 
 
 </div>

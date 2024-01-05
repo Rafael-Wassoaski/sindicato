@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -125,10 +126,10 @@ public class DocumentServiceTest {
         Document document = documentService.createDocument(documentDTO);
         Document document2 = documentService.createDocument(documentDTO);
 
-        List<Document> createdDocuments = documentService.findDocumentUserId(customUser.getId());
+        Page<Document> createdDocuments = documentService.findDocumentUserId(customUser.getId(), 0);
 
         Assertions.assertNotNull(createdDocuments);
-        Assertions.assertEquals(2, createdDocuments.size());
+        Assertions.assertEquals(2, createdDocuments.getTotalElements());
     }
 
     @Test

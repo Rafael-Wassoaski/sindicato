@@ -12,6 +12,7 @@ import com.rafaelwassoaski.sindicato.service.DocumentTypeService;
 import com.rafaelwassoaski.sindicato.service.UserService;
 import com.rafaelwassoaski.sindicato.service.secutiry.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,22 +38,24 @@ public class DocumentController {
     private JWTService jwtService;
 
     @GetMapping("/myDocs/{id}")
-    public String getMyDocuments(@PathVariable Long id, Model model, HttpServletRequest request) throws BaseException {
+    public String getMyDocuments(@PathVariable Long id, @RequestParam(name = "page") int page, Model model, HttpServletRequest request) throws BaseException {
         userService.sameUser(id, request);
 
-        List<Document> documents = documentService.findDocumentUserId(id);
+        Page<Document> documents = documentService.findDocumentUserId(id, page);
 
-        model.addAttribute("documents", documents);
+        model.addAttribute("documents", documents.getContent());
+        model.addAttribute("pages", documents.getTotalElements());
 
         return "documents/Documents";
     }
 
     @GetMapping("/allDocuments/")
-    public String getAllDocuments(Model model, HttpServletRequest request) throws BaseException {
+    public String getAllDocuments(@RequestParam(name = "page") int page, Model model, HttpServletRequest request) throws BaseException {
         userService.userIsAdmin(request);
-        List<Document> documents = documentService.findAllDocuments();
+        Page<Document> documents = documentService.findAllDocuments(page);
 
-        model.addAttribute("documents", documents);
+        model.addAttribute("documents", documents.getContent());
+        model.addAttribute("pages", documents.getTotalElements());
 
         return "documents/Documents";
     }
@@ -81,7 +84,7 @@ public class DocumentController {
             documentDTO.setDocumentUser(customUser);
             this.documentService.createDocument(documentDTO);
 
-            return this.getMyDocuments(customUser.getId(), model, request);
+            return this.getMyDocuments(customUser.getId(), 0, model, request);
         } catch (ResponseStatusException | BaseException e) {
             throw e;
         }

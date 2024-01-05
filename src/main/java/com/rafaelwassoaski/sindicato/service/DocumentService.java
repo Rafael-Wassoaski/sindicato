@@ -16,9 +16,12 @@ import com.rafaelwassoaski.sindicato.service.validation.docType.user.DocumentTyp
 import com.rafaelwassoaski.sindicato.service.validation.user.UserIdExistenceValidation;
 import com.rafaelwassoaski.sindicato.util.CookiesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +42,7 @@ public class DocumentService {
     @Autowired
     private JWTService jwtService;
 
+    private final int PAGE_SIZE = 50;
 
     public Document createDocument(DocumentDTO documentDTO) throws BaseException {
         CustomUser dtoCustomUser = documentDTO.getDocumentCustomUser();
@@ -134,10 +138,11 @@ public class DocumentService {
         return optionalDocument.get();
     }
 
-    public List<Document> findDocumentUserId(java.lang.Long id) throws ResourceNotFoundException {
+    public Page<Document> findDocumentUserId(Long id, int page) throws ResourceNotFoundException {
         CustomUser customUser = userService.findUserById(id);
-        List<Document> userDocuments = documentRepository.findAllByDocumentCustomUser(customUser);
-        return userDocuments;
+        Pageable pageable = this.createPageable(page);
+
+        return documentRepository.findAllByDocumentCustomUser(customUser, pageable);
     }
 
     public DocumentDTO createDocumentDTO(HttpServletRequest request) throws ResourceNotFoundException {
@@ -145,7 +150,21 @@ public class DocumentService {
         return new DocumentDTO(user);
     }
 
-    public List<Document> findAllDocuments() {
-        return this.documentRepository.findAll();
+    public Page<Document> findAllDocuments(int page) {
+        Pageable pageable = this.createPageable(page);
+        return this.documentRepository.findAll(pageable);
+    }
+
+    public int pagesNumbers() {
+        return (int) (this.documentRepository.count() / PAGE_SIZE);
+    }
+
+    public int pagesNumbersByEmail(String email) {
+        return (int) (this.documentRepository.countByName(email) / PAGE_SIZE);
+    }
+
+    private Pageable createPageable(int page){
+        int firstElementOfPage = page * PAGE_SIZE;
+        return  (Pageable) PageRequest.of(firstElementOfPage, firstElementOfPage + PAGE_SIZE);
     }
 }
