@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -151,5 +152,102 @@ public class DocumentServiceTest {
 
         Assertions.assertEquals(updatedDocument.getName(), updatedDocName);
         Assertions.assertEquals(updatedDocument.getId(), document.getId());
+    }
+
+    @Test
+    public void shouldSearchDocumentByName() throws BaseException {
+        String DocName = "Doc Name";
+
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO(DocName, createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+        System.out.println(document.getName());
+
+        Page<Document> documentsWithName = documentService.searchDocuments(DocName, 0);
+
+        Assertions.assertEquals(documentsWithName.getTotalElements(), 1);
+    }
+
+    @Test
+    public void shouldSearchDocumentByPartialName() throws BaseException {
+        String DocName = "Doc Name";
+        String partialDocName = "Name";
+
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO(DocName, createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+        System.out.println(document.getName());
+
+        Page<Document> documentsWithName = documentService.searchDocuments(partialDocName, 0);
+
+        Assertions.assertEquals(documentsWithName.getTotalElements(), 1);
+    }
+
+    @Test
+    public void shouldSearchDocumentByCreationDate() throws BaseException {
+
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+        System.out.println(LocalDate.now().toString());
+        System.out.println(document.getCreatedAt().toString());
+
+        Page<Document> documentsWithName = documentService.searchDocuments(LocalDate.now().toString(), 0);
+
+        Assertions.assertEquals(documentsWithName.getTotalElements(), 1);
+    }
+
+    @Test
+    public void shouldSearchDocumentByDocumentValue() throws BaseException {
+        Long documentValue = 1000L;
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, documentValue, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+
+        Page<Document> documentsWithName = documentService.searchDocuments(documentValue.toString(), 0);
+
+        Assertions.assertEquals(documentsWithName.getTotalElements(), 1);
+    }
+
+    @Test
+    public void shouldSearchDocumentByObs() throws BaseException {
+        String obs = "No OBS";
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), obs);
+        Document document = documentService.createDocument(documentDTO);
+
+        Page<Document> documentsWithName = documentService.searchDocuments(obs, 0);
+
+        Assertions.assertEquals(documentsWithName.getTotalElements(), 1);
     }
 }

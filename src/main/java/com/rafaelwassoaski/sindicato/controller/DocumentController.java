@@ -38,8 +38,12 @@ public class DocumentController {
     private JWTService jwtService;
 
     @GetMapping("/myDocs/{id}")
-    public String getMyDocuments(@PathVariable Long id, @RequestParam(name = "page") int page, Model model, HttpServletRequest request) throws BaseException {
+    public String getMyDocuments(@PathVariable Long id, @RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "search", required = false) String search, Model model, HttpServletRequest request) throws BaseException {
         userService.sameUser(id, request);
+
+        if(search != null){
+            return this.searchDocuments(page, search, model, request);
+        }
 
         Page<Document> documents = documentService.findDocumentUserId(id, page);
 
@@ -50,12 +54,26 @@ public class DocumentController {
     }
 
     @GetMapping("/allDocuments/")
-    public String getAllDocuments(@RequestParam(name = "page") int page, Model model, HttpServletRequest request) throws BaseException {
+    public String getAllDocuments(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "search", required = false) String search, Model model, HttpServletRequest request) throws BaseException {
         userService.userIsAdmin(request);
+
+        if(search != null){
+            return this.searchDocuments(page, search, model, request);
+        }
+
         Page<Document> documents = documentService.findAllDocuments(page);
 
         model.addAttribute("documents", documents.getContent());
         model.addAttribute("pages", documents.getTotalElements());
+
+        return "documents/Documents";
+    }
+
+    public String searchDocuments(int page, String search, Model model, HttpServletRequest request){
+        Page<Document> documents = documentService.searchDocuments(search, page);
+        model.addAttribute("documents", documents.getContent());
+        model.addAttribute("pages", documents.getTotalElements());
+        model.addAttribute("search", search);
 
         return "documents/Documents";
     }
@@ -84,7 +102,7 @@ public class DocumentController {
             documentDTO.setDocumentUser(customUser);
             this.documentService.createDocument(documentDTO);
 
-            return this.getMyDocuments(customUser.getId(), 0, model, request);
+            return this.getMyDocuments(customUser.getId(), 0, null, model, request);
         } catch (ResponseStatusException | BaseException e) {
             throw e;
         }

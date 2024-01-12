@@ -19,7 +19,7 @@
         <h1 class="p-2 w-100 bd-highlight">Sindicato</h1>
         <div class="d-flex align-items-start">
             <div  sec:authorize="isAuthenticated()" class="ms-auto p-2 bd-highlight">
-                <a th:href="@{/documents/myDocs/{id}&page=0(id=${#authentication.getPrincipal().getId()})}">Meus documentos</a>
+                <a th:href="@{/documents/myDocs/{id}?page=0(id=${#authentication.getPrincipal().getId()})}">Meus documentos</a>
             </div>
         </div>
         <div sec:authorize="isAnonymous()" class="d-flex bd-highlight mb-3">
@@ -32,7 +32,7 @@
         </div>
 
         <div sec:authorize="isAuthenticated()" class="d-flex bd-highlight mb-3">
-            <a th:if="${#authentication.getPrincipal().isAdmin()}" th:href="@{/documents/allDocuments&page=0}" class="p-2 bd-highlight">Todos os documentos</a>
+            <a th:if="${#authentication.getPrincipal().isAdmin()}" th:href="@{/documents/allDocuments?page=0}" class="p-2 bd-highlight">Todos os documentos</a>
 
             <p class="p-2 bd-highlight">Usuário:
             <p th:text="${#authentication.getPrincipal().getName()}" class="p-2 bd-highlight"></p>

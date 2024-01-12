@@ -14,15 +14,17 @@ import com.rafaelwassoaski.sindicato.service.secutiry.JWTService;
 import com.rafaelwassoaski.sindicato.service.validation.ChainValidation;
 import com.rafaelwassoaski.sindicato.service.validation.docType.user.DocumentTypeExistenceValidation;
 import com.rafaelwassoaski.sindicato.service.validation.user.UserIdExistenceValidation;
-import com.rafaelwassoaski.sindicato.util.CookiesUtils;
+import com.rafaelwassoaski.sindicato.util.NumericUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,8 +109,13 @@ public class DocumentService {
 
 
     private String createDocumentName(DocumentDTO documentDTO, DocumentType documentType) {
+        String documentName = documentDTO.getName();
+        if(documentName != null && !documentName.isEmpty()){
+            return documentName;
+        }
+
         CustomUser user = documentDTO.getDocumentCustomUser();
-        String documentName = user.getName() + "-" + documentType.getName();
+        documentName = user.getName() + "-" + documentType.getName();
 
         int userDocumentsTypeCount = this.documentRepository.countByName(documentName);
         userDocumentsTypeCount++;
@@ -166,5 +173,26 @@ public class DocumentService {
     private Pageable createPageable(int page){
         int firstElementOfPage = page * PAGE_SIZE;
         return  (Pageable) PageRequest.of(firstElementOfPage, firstElementOfPage + PAGE_SIZE);
+    }
+
+    public Page<Document> searchDocuments(String searchValue, int page) {
+        List<Document> documents = new ArrayList<>();
+
+        documents.addAll(documentRepository.findAllByNameIsContaining(searchValue));
+        documents.addAll(documentRepository.findAllDocumentsCreatedInDate(searchValue));
+        documents.addAll(documentRepository.findByObsContains(searchValue));
+
+        NumericUtil numericUtil = new NumericUtil();
+        if(numericUtil.isNumeric(searchValue)){
+            long documentValue = Long.parseLong(searchValue);
+            documents.addAll(documentRepository.findAllByDocumentValue(documentValue));
+        }
+
+        System.out.println(documents);
+        System.out.println(documentRepository.findAllByNameIsContaining(searchValue));
+        System.out.println(documentRepository.count());
+        Pageable pageable = this.createPageable(page);
+        return new PageImpl<>(documents, pageable, documents.size());
+
     }
 }

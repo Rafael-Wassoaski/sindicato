@@ -15,6 +15,17 @@
 <div style="margin: 5% 40% 5% 40%; width: 25%;" class="d-flex justify-content-center flex-column">
 
     <div class="table-wrap">
+
+        <form th:if="${#authentication.getPrincipal().isAdmin()}" method="get" th:action="@{/documents/allDocuments}">
+            <input type="text" name="search" placeholder="Pesquisa"/>
+            <input type="submit" value="Buscar">
+        </form>
+
+        <form th:unless="${#authentication.getPrincipal().isAdmin()}" method="get" th:href="@{/documents/myDocs/{id}?page=0(id=${#authentication.getPrincipal().getId()})}">
+            <input type="text" name="search" placeholder="Pesquisa"/>
+            <input type="submit" value="Buscar">
+        </form>
+
         <table th:if="${not #lists.isEmpty(documents)}" class="searchable sortable">
             <thead>
                 <tr>
@@ -54,7 +65,6 @@
             </thead>
             <tbody>
                 <tr th:each="document : ${documents}">
-
                         <!--                <div>-->
                         <td th:text="${document.name}"></td>
                         <td th:text="${document.documentCustomUser.name}"></td>
