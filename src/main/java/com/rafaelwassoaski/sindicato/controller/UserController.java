@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
@@ -41,6 +42,14 @@ public class UserController {
         model.addAttribute("userDTO", userDTO);
 
         return "users/Login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model, HttpServletRequest request, HttpServletResponse response){
+        service.logout(request, response);
+        httpServletService.removeTokenCookie(response);
+
+        return this.loginPage(model);
     }
 
     @PostMapping("/authenticate")

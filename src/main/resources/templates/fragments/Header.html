@@ -37,6 +37,8 @@
             <p class="p-2 bd-highlight">Usuário:
             <p th:text="${#authentication.getPrincipal().getName()}" class="p-2 bd-highlight"></p>
             </p>
+            <a th:href="@{/users/logout}" class="p-2 bd-highlight">Logout</a>
+
         </div>
     </div>
 

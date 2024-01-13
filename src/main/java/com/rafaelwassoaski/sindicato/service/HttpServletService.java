@@ -11,17 +11,25 @@ import javax.servlet.http.Cookie;
 public class HttpServletService {
 
     public HttpServletResponse setTokenCookie(HttpServletResponse response, String token) {
-        ResponseCookie resCookie = ResponseCookie.from("token", token)
+
+        ResponseCookie resCookie = createCookie(token, 3600);
+        response.addHeader("Set-Cookie", resCookie.toString());
+
+        return response;
+    }
+
+    private ResponseCookie createCookie(String token, int maxAge){
+        return ResponseCookie.from("token", token)
                 .httpOnly(true)
                 .sameSite("None")
                 .secure(true)
                 .path("/")
-                .maxAge(Math.toIntExact(3600))
+                .maxAge(Math.toIntExact(maxAge))
                 .build();
+    }
 
-        response.addHeader("Set-Cookie", resCookie.toString());
-
+    public HttpServletResponse removeTokenCookie(HttpServletResponse response) {
+        response.addHeader("Set-Cookie", null);
         return response;
-
     }
 }

@@ -10,38 +10,124 @@
 </head>
 <body>
     <form action="#" th:action="@{/users/newUser}" th:object="${userDTO}" method="post">
-        <div th:replace="fragments/Header"></div>
+        <div th:replace="fragments/Header"/>
+        <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+            <fieldset>
+                <legend>Cadastre-se</legend>
 
-        <label for="name">Nome completo</label>
-        <input type="text" name="name" th:field="*{name}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="nome_completo">Nome completo</label>
+                    <div class="col">
+                        <input id="nome_completo" name="nome_completo" type="text" th:field="*{name}" placeholder="Nome completo" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="cpf">CPF</label>
-        <input type="text" name="cpf" th:field="*{cpf}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="CPF">CPF</label>
+                    <div class="col">
+                        <input id="CPF" name="CPF" type="text" th:field="*{cpf}" placeholder="CPF" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="email">E-mail</label>
-        <input type="email" name="email" th:field="*{email}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="email">E-mail</label>
+                    <div class="col">
+                        <input id="email" name="email" type="text" th:field="*{email}" placeholder="E-mail" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="password">Senha</label>
-        <input type="password" name="password" th:field="*{password}"/>
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col control-label" for="password">Senha</label>
+                    <div class="col">
+                        <input id="password" name="password" type="password" th:field="*{password}" placeholder="Senha" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="street">Rua</label>
-        <input type="text" name="street" th:field="*{address.street}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="rua">Rua</label>
+                    <div class="col">
+                        <input id="rua" name="rua" type="text" th:field="*{address.street}" placeholder="Rua" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="houseNumber">Número</label>
-        <input type="text" name="houseNumber" th:field="*{address.houseNumber}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="numero">Número</label>
+                    <div class="col">
+                        <input id="numero" name="numero" type="text" th:field="*{address.houseNumber}" placeholder="Número" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="city">Cidade</label>
-        <input type="text" name="city" th:field="*{address.city}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="cidade">Cidade</label>
+                    <div class="col">
+                        <input id="cidade" name="cidade" type="text" th:field="*{address.city}" placeholder="Cidade" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="state">Estado</label>
-        <input type="text" name="state" th:field="*{address.state}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="estado">Estado</label>
+                    <div class="col">
+                        <input id="estado" name="estado" type="text" th:field="*{address.state}" placeholder="Estado" class="form-control input-md">
+                    </div>
+                </div>
 
-        <label for="country">País</label>
-        <input type="text" name="country" th:field="*{address.country}"/>
+                <div class="form-group">
+                    <label class="col control-label" for="pais">País</label>
+                    <div class="col">
+                        <input id="pais" name="pais" type="text" th:field="*{address.country}" placeholder="País" class="form-control input-md">
+                    </div>
+                </div>
 
-
-        <input type="submit" value="Cadastrar">
+                <br/>
+                <div class="form-group">
+                    <div class="col">
+                        <input type="submit" id="cadastrar" name="cadastrar" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
     </form>
+
+
+
+
+
+
+
+
+<!--    <form action="#" th:action="@{/users/newUser}" th:object="${userDTO}" method="post">-->
+<!--        <div th:replace="fragments/Header"></div>-->
+
+<!--        <label for="name">Nome completo</label>-->
+<!--        <input type="text" name="name" th:field="*{name}"/>-->
+
+<!--        <label for="cpf">CPF</label>-->
+<!--        <input type="text" name="cpf" th:field="*{cpf}"/>-->
+
+<!--        <label for="email">E-mail</label>-->
+<!--        <input type="email" name="email" th:field="*{email}"/>-->
+
+<!--        <label for="password">Senha</label>-->
+<!--        <input type="password" name="password" th:field="*{password}"/>-->
+
+<!--        <label for="street">Rua</label>-->
+<!--        <input type="text" name="street" th:field="*{address.street}"/>-->
+
+<!--        <label for="houseNumber">Número</label>-->
+<!--        <input type="text" name="houseNumber" th:field="*{address.houseNumber}"/>-->
+
+<!--        <label for="city">Cidade</label>-->
+<!--        <input type="text" name="city" th:field="*{address.city}"/>-->
+
+<!--        <label for="state">Estado</label>-->
+<!--        <input type="text" name="state" th:field="*{address.state}"/>-->
+
+<!--        <label for="country">País</label>-->
+<!--        <input type="text" name="country" th:field="*{address.country}"/>-->
+<!--        -->
+<!--        <input type="submit" value="Cadastrar">-->
+<!--    </form>-->
 </body>
 
 </html>
