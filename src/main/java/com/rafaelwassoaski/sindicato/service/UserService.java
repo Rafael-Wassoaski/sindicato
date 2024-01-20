@@ -7,6 +7,7 @@ import com.rafaelwassoaski.sindicato.exceptions.ResourceNotFoundException;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
 import com.rafaelwassoaski.sindicato.service.secutiry.JWTService;
 import com.rafaelwassoaski.sindicato.service.validation.ChainValidation;
+import com.rafaelwassoaski.sindicato.service.validation.user.UserCPFValidation;
 import com.rafaelwassoaski.sindicato.service.validation.user.UserEmailExistenceValidation;
 import com.rafaelwassoaski.sindicato.service.validation.user.UserPasswordValidation;
 import com.rafaelwassoaski.sindicato.util.CookiesUtils;
@@ -46,7 +47,8 @@ public class UserService {
     }
 
     private ChainValidation createUserValidation(){
-        UserEmailExistenceValidation userEmailExistenceValidation = new UserEmailExistenceValidation(null, userRepository);
+        UserCPFValidation userCPFValidation = new UserCPFValidation(null);
+        UserEmailExistenceValidation userEmailExistenceValidation = new UserEmailExistenceValidation(userCPFValidation, userRepository);
         UserPasswordValidation userPasswordValidation = new UserPasswordValidation(userEmailExistenceValidation);
 
         return userPasswordValidation;

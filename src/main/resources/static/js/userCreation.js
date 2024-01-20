@@ -2,35 +2,6 @@ $(document).ready(function(){
   $('#CPF').mask('000.000.000-00');
 });
 
-function validate(){
-    console.log("aaaaa");
-
-    let cpf = document.getElementById("CPF");
-    let password = document.getElementById("password");
-    let confirmPassword = document.getElementById("confirm-password");
-
-    let isCpsValid = validateCPF(cpf);
-    let isPasswordValid = validatePassword(password, confirmPassword);
-
-
-    if(!isCpsValid){
-        alert("CPF inválido");
-        return;
-    }
-
-     if(!isPasswordValid){
-        let mensagemSenha = "Senha inválida";
-        if(validatePasswordSize(password)){
-                mensagemSenha += ", a senha deve ter no mínimo 8 caracteres";
-            }
-
-        alert(mensagemSenha);
-        return;
-    }
-
-    return true;
-}
-
 function validateCPF(cpf) {
   cpf = cpf.replace(/\D/g, '');
   if (cpf.length !== 11) {
@@ -86,3 +57,29 @@ function validatePasswordSize(password){
 
     return true;
 }
+
+function validate(){
+    const cpf = document.getElementById("CPF").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    const isCpsValid = validateCPF(cpf);
+    const isPasswordValid = validatePassword(password, confirmPassword);
+
+    if(!isCpsValid){
+        alert("CPF inválido");
+        return false;
+    }
+
+     if(!isPasswordValid){
+        let mensagemSenha = "Senha inválida";
+        if(validatePasswordSize(password)){
+                mensagemSenha += ", a senha deve ter no mínimo 8 caracteres";
+            }
+        alert(mensagemSenha);
+        return false;
+    }
+
+    return true;
+}
+

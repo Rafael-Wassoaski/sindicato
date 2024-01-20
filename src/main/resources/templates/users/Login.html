@@ -9,17 +9,31 @@
     <script src='/main.js'></script>
 </head>
 <body>
-    <form action="#" th:action="@{/users/authenticate}" th:object="${userDTO}" method="post">
-        <div th:replace="fragments/Header"></div>
-        <label for="email">E-mail</label>
-        <input type="email" name="email" th:field="*{email}"/>
+<form action="#" th:action="@{/users/authenticate}" th:object="${userDTO}" method="post">
+    <div th:replace="fragments/Header"></div>
 
-        <label for="password">Senha</label>
-        <input type="password" name="password" th:field="*{password}"/>
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+        <div class="form-group">
+            <label class="col control-label" for="email">Email</label>
+            <div class="col">
+                <input id="email" name="email" type="text" th:field="*{email}"
+                       placeholder="Email" class="form-control input-md" required>
+            </div>
 
-        <input type="submit" value="Logar">
-    </form>
-    <a th:href="@{/users/create}">Cadastre-se</a>
+            <label class="col control-label" for="password">Senha</label>
+            <div class="col">
+                <input id="password" name="email" type="text" th:field="*{password}"
+                       placeholder="Senha" class="form-control input-md" required>
+            </div>
+            <br/>
+            <div class="col">
+                <input type="submit" id="entrar" value="Logar" class="btn btn-primary"/>
+                <a th:href="@{/users/create}">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+
+</form>
 </body>
 
 </html>
