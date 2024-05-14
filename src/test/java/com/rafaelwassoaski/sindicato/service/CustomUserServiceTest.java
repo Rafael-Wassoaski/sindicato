@@ -33,7 +33,7 @@ public class CustomUserServiceTest {
     @Test
     public void shouldCreateUserFromUserDTO() throws BaseException {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
 
         CustomUser customUser = userService.createUser(userDTO);
         CustomUser databaseCustomUser = userRepository.getReferenceById(customUser.getId());
@@ -44,7 +44,7 @@ public class CustomUserServiceTest {
     @Test
     public void shouldNotCreateUserWithSameEmail() throws BaseException {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
 
         userService.createUser(userDTO);
 
@@ -62,7 +62,7 @@ public class CustomUserServiceTest {
     @Test
     public void shouldGetUserById() throws BaseException {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
 
         CustomUser customUser = userService.createUser(userDTO);
         CustomUser databaseCustomUser = userService.findUserById(customUser.getId());
@@ -73,7 +73,7 @@ public class CustomUserServiceTest {
     @Test
     public void shouldGetUserByUsername() throws BaseException {
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "000.000.000-00");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
 
         CustomUser customUser = userService.createUser(userDTO);
         CustomUser databaseCustomUser = userService.findUserByEmail(customUser.getEmail());
