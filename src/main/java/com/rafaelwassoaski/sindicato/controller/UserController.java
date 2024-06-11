@@ -58,12 +58,15 @@ public class UserController {
             CustomUser customUser = this.service.login(userDTO);
 
             String token = jwtService.generateToken(customUser);
-            response = httpServletService.setTokenCookie(response, token);
+            httpServletService.setTokenCookie(response, token);
 
             return "redirect:/documents/myDocs/" + customUser.getId() + "?page=0";
         } catch (ResponseStatusException | ResourceNotFoundException e) {
-            System.out.println(e);
-            throw e;
+            System.out.println("[authenticate] Error while authenticating: " + e);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            System.out.println("[authenticate] Generic error while authenticating: " + e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 

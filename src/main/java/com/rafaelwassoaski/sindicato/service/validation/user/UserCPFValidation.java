@@ -59,15 +59,6 @@ public class UserCPFValidation extends ChainValidation<CustomUser> {
         return this.determineDigit(sum);
     }
 
-    private char determineDigit(int sum) {
-        int divisionMod = 11 - (sum % 11);
-        if ((divisionMod == 10) || (divisionMod == 11)) {
-            return '0';
-        }
-
-        return (char) (divisionMod + 48);
-    }
-
     private int sumCpfDigits(String cpf, int weight){
         int sum = 0;
         int number;
@@ -80,5 +71,14 @@ public class UserCPFValidation extends ChainValidation<CustomUser> {
         }
 
         return sum;
+    }
+
+    private char determineDigit(int sum) {
+        int divisionMod = 11 - (sum % 11);
+        if ((divisionMod == 10) || (divisionMod == 11)) {
+            return '0';
+        }
+
+        return (char) (divisionMod + 48);
     }
 }
