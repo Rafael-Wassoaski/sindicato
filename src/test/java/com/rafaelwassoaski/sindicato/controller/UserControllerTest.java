@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -69,7 +70,7 @@ public class UserControllerTest {
                         .param("password", "wrong_password"))
                 .andReturn().getResponse();
 
-        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
+        Assertions.assertEquals(HttpStatus.MOVED_TEMPORARILY.value(), response.getStatus());
     }
 
     @Test
@@ -80,7 +81,13 @@ public class UserControllerTest {
                         .param("email", baseEmail))
                 .andReturn().getResponse();
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+        Assertions.assertEquals(HttpStatus.MOVED_TEMPORARILY.value(), response.getStatus());
+    }
+
+    @Test
+    public void shouldRedirectUserToLoginPageWhenUserIsNotLoggedIn() throws Exception {
+        String redirectUrl = mockMvc.perform(get("/documents/allDocuments")).andReturn().getResponse().getRedirectedUrl();
+        Assertions.assertTrue(redirectUrl.contains("/users/login"));
     }
 
     private MockHttpServletResponse createUserWithEmail(String email) throws Exception {
@@ -97,5 +104,4 @@ public class UserControllerTest {
                         .param("address.country", "Brazil"))
                 .andReturn().getResponse();
     }
-
 }

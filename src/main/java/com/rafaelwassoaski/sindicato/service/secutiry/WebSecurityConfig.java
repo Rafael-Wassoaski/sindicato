@@ -31,19 +31,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/home", "/js/**", "/css/**")
-                .permitAll()
-
-                .antMatchers("/users/login")
-                .permitAll()
-
-                .antMatchers("/users/authenticate")
-                .permitAll()
-
-                .antMatchers("/users/newUser")
-                .permitAll()
-
-                .antMatchers("/users/create")
+                .antMatchers("/",
+                        "/home",
+                        "/js/**",
+                        "/css/**",
+                        "/users/login",
+                        "/users/authenticate",
+                        "/users/newUser",
+                        "/users/create")
                 .permitAll()
 
                 .anyRequest()
@@ -51,8 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/users/login")
-                .loginPage("/users/login");
+                .loginPage("/users/login")
+                .loginProcessingUrl("/users/authenticate")
+                .defaultSuccessUrl("/documents/allDocuments", true);
         http
                 .cors().and()
                 .csrf().disable()
