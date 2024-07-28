@@ -4,6 +4,7 @@ package com.rafaelwassoaski.sindicato.service;
 import com.rafaelwassoaski.sindicato.dto.UserDTO;
 import com.rafaelwassoaski.sindicato.entity.Address;
 import com.rafaelwassoaski.sindicato.entity.CustomUser;
+import com.rafaelwassoaski.sindicato.enums.Roles;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.EmailAlreadyInUseException;
 import com.rafaelwassoaski.sindicato.exceptions.EmptyPasswordException;
@@ -14,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import javax.management.relation.Role;
+import java.util.Arrays;
+import java.util.Collections;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -79,5 +84,28 @@ public class CustomUserServiceTest {
         CustomUser databaseCustomUser = userService.findUserByEmail(customUser.getEmail());
 
         Assertions.assertNotNull(databaseCustomUser);
+    }
+
+    @Test
+    public void shouldHaveUserRoleInCommonUser() throws BaseException {
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
+
+        CustomUser customUser = userService.createUser(userDTO);
+        CustomUser databaseCustomUser = userService.findUserByEmail(customUser.getEmail());
+
+        Assertions.assertEquals(databaseCustomUser.getRole(), Roles.USER);
+    }
+
+    @Test
+    public void shouldNotHaveAdminRoleInCommonUser() throws BaseException {
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        UserDTO userDTO = new UserDTO("Rafael", "12345678", "email@email.com", address, "343.626.280-37");
+
+        CustomUser customUser = userService.createUser(userDTO);
+        CustomUser databaseCustomUser = userService.findUserByEmail(customUser.getEmail());
+
+        Assertions.assertNotEquals(databaseCustomUser.getRole(), Roles.ADMIN);
+
     }
 }

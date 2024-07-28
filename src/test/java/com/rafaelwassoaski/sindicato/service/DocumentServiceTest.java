@@ -5,6 +5,7 @@ import com.rafaelwassoaski.sindicato.entity.Address;
 import com.rafaelwassoaski.sindicato.entity.CustomUser;
 import com.rafaelwassoaski.sindicato.entity.Document;
 import com.rafaelwassoaski.sindicato.entity.DocumentType;
+import com.rafaelwassoaski.sindicato.enums.Roles;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.DocTypeNotFoundException;
 import com.rafaelwassoaski.sindicato.exceptions.ResourceNotFoundException;
@@ -23,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -52,7 +55,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -70,7 +73,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser(1L, "Name1", "Password", "email@email.com", address, "000.000.000-00", new HashSet<>(), false);
+        CustomUser customUser = new CustomUser(1L, "Name1", "Password", "email@email.com", address, "000.000.000-00", new HashSet<>(), Roles.USER);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), customUser, 1000L, LocalDateTime.now(), "No OBS");
 
@@ -82,7 +85,7 @@ public class DocumentServiceTest {
         DocumentType docType = new DocumentType(1L, "DocType Name",new HashSet<>());
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", docType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -96,7 +99,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -120,7 +123,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -140,7 +143,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -162,7 +165,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO(DocName, createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -183,7 +186,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO(DocName, createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -202,7 +205,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
@@ -222,7 +225,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, documentValue, LocalDateTime.now(), "No OBS");
@@ -240,7 +243,7 @@ public class DocumentServiceTest {
         DocumentType createdDocType = documentTypeRepository.save(docType);
 
         Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
-        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", false);
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
         CustomUser createdCustomUser =  userRepository.save(customUser);
 
         DocumentDTO documentDTO = new DocumentDTO("Doc Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), obs);

@@ -47,7 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/users/login")
-                .loginProcessingUrl("/users/authenticate")
                 .defaultSuccessUrl("/documents/allDocuments", true);
         http
                 .cors().and()

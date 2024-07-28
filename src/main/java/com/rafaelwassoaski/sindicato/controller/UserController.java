@@ -61,11 +61,13 @@ public class UserController {
             httpServletService.setTokenCookie(response, token);
 
             return "redirect:/documents/myDocs/" + customUser.getId() + "?page=0";
-        } catch (ResponseStatusException | ResourceNotFoundException e) {
-            System.out.println("[authenticate] Error while authenticating: " + e);
+        } catch (ResponseStatusException | ResourceNotFoundException exception) {
+            System.out.println("[authenticate] Error while authenticating: " + exception);
+            exception.printStackTrace();
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
-            System.out.println("[authenticate] Generic error while authenticating: " + e);
+        } catch (Exception exception) {
+            System.out.println("[authenticate] Generic error while authenticating: " + exception);
+            exception.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserDetailService implements UserDetailsService {
 
@@ -24,11 +26,13 @@ public class UserDetailService implements UserDetailsService {
             return User.builder()
                     .username(customUser.getEmail())
                     .password(customUser.getPassword())
-                    .roles(new String[]{"ADMIN"})
+                    .roles(customUser.getUserRoleAsArray())
                     .build();
 
         } catch (ResourceNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

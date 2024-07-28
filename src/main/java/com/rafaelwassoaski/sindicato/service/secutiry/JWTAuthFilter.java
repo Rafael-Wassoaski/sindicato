@@ -52,11 +52,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                     throw new RuntimeException(e);
                 }
 
-                String []roles = new String[]{"USER"};
-
-                if(customUser.isAdmin()){
-                    roles = new String[]{"ADMIN"};
-                }
+                String []roles = customUser.getUserRoleAsArray();
 
                 UserDetails userDetails = User.builder()
                         .username(customUser.getEmail())

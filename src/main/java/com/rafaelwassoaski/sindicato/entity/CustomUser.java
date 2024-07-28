@@ -1,10 +1,12 @@
 package com.rafaelwassoaski.sindicato.entity;
 
 import com.rafaelwassoaski.sindicato.dto.UserDTO;
+import com.rafaelwassoaski.sindicato.enums.Roles;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "custom_user")
@@ -22,20 +24,21 @@ public class CustomUser {
     private Address address;
     @Column
     private String cpf;
+    @Enumerated(EnumType.STRING)
     @Column
-    private boolean isAdmin;
+    private Roles role;
     @OneToMany(mappedBy = "documentCustomUser", cascade = CascadeType.ALL)
     private Set<Document> documents;
-    public CustomUser(String name, String password, String email, Address address, String cpf, Boolean isAdmin) {
+    public CustomUser(String name, String password, String email, Address address, String cpf, Roles role) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.address = address;
         this.cpf = cpf;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
-    public CustomUser(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents, Boolean isAdmin) {
+    public CustomUser(Long id, String name, String password, String email, Address address, String cpf, Set<Document> documents, Roles role) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -43,7 +46,7 @@ public class CustomUser {
         this.address = address;
         this.cpf = cpf;
         this.documents = documents;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
     public CustomUser(UserDTO userDTO) {
@@ -52,7 +55,7 @@ public class CustomUser {
         this.email = userDTO.getEmail();
         this.address = userDTO.getAddress();
         this.cpf = userDTO.getCpf();
-        this.isAdmin = false;
+        this.role = Roles.USER;
     }
 
     public CustomUser() {
@@ -85,9 +88,12 @@ public class CustomUser {
     public Set<Document> getDocuments() {
         return documents;
     }
+    public Roles getRole() {
+        return this.role;
+    }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public String[] getUserRoleAsArray(){
+        return new String[]{this.role.name()};
     }
 
     public void addDocument(Document document){
@@ -96,5 +102,9 @@ public class CustomUser {
         }
 
         this.documents.add(document);
+    }
+
+    public boolean isAdmin() {
+        return this.role.equals(Roles.ADMIN);
     }
 }

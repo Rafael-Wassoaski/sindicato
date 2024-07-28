@@ -2,6 +2,7 @@ package com.rafaelwassoaski.sindicato.service;
 
 import com.rafaelwassoaski.sindicato.dto.UserDTO;
 import com.rafaelwassoaski.sindicato.entity.CustomUser;
+import com.rafaelwassoaski.sindicato.enums.Roles;
 import com.rafaelwassoaski.sindicato.exceptions.BaseException;
 import com.rafaelwassoaski.sindicato.exceptions.ResourceNotFoundException;
 import com.rafaelwassoaski.sindicato.repository.UserRepository;
@@ -22,6 +23,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
@@ -93,7 +95,7 @@ public class UserService {
         UserDetails userDetails = User.builder()
                 .username(customUser.getEmail())
                 .password(customUser.getPassword())
-                .roles(new String[] {"ADMIN"})
+                .roles(customUser.getUserRoleAsArray())
                 .build();
 
         boolean isSamePassword =
@@ -115,7 +117,7 @@ public class UserService {
         String username = jwtService.getUsername(token);
         CustomUser customUser = this.findUserByEmail(username);
 
-        if(!customUser.isAdmin()){
+        if(customUser.isAdmin()){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }

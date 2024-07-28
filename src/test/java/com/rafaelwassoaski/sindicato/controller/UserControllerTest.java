@@ -70,7 +70,7 @@ public class UserControllerTest {
                         .param("password", "wrong_password"))
                 .andReturn().getResponse();
 
-        Assertions.assertEquals(HttpStatus.MOVED_TEMPORARILY.value(), response.getStatus());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class UserControllerTest {
                         .param("email", baseEmail))
                 .andReturn().getResponse();
 
-        Assertions.assertEquals(HttpStatus.MOVED_TEMPORARILY.value(), response.getStatus());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
 
     @Test
