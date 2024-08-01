@@ -135,7 +135,7 @@ public class DocumentService {
         return docTypeExistenceValidation;
     }
 
-    public Document findDocumentById(java.lang.Long id) throws ResourceNotFoundException {
+    public Document findDocumentById(Long id) throws ResourceNotFoundException {
         Optional<Document> optionalDocument = documentRepository.findById(id);
 
         if (!optionalDocument.isPresent()) {
@@ -188,11 +188,18 @@ public class DocumentService {
             documents.addAll(documentRepository.findAllByDocumentValue(documentValue));
         }
 
-        System.out.println(documents);
-        System.out.println(documentRepository.findAllByNameIsContaining(searchValue));
-        System.out.println(documentRepository.count());
         Pageable pageable = this.createPageable(page);
         return new PageImpl<>(documents, pageable, documents.size());
 
     }
+
+    public void deleteDocument(Long documentId) throws ResourceNotFoundException {
+        Optional<Document> optionalDocument = this.documentRepository.findById(documentId);
+        if(!optionalDocument.isPresent()){
+            throw new ResourceNotFoundException(String.format("Não foi possível encontrar o documento de ID: %d", documentId));
+        }
+
+        this.documentRepository.deleteById(documentId);
+    }
+
 }

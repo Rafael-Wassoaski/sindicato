@@ -24,10 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -155,6 +152,30 @@ public class DocumentServiceTest {
 
         Assertions.assertEquals(updatedDocument.getName(), updatedDocName);
         Assertions.assertEquals(updatedDocument.getId(), document.getId());
+    }
+
+    @Test
+    public void shouldDeleteOneDocument() throws BaseException {
+        DocumentType docType = new DocumentType("DocType Name");
+        DocumentType createdDocType = documentTypeRepository.save(docType);
+
+        Address address = new Address("Street A", "Number B", "City C", "State D", "Country E");
+        CustomUser customUser = new CustomUser("Name1", "Password", "email@email.com", address, "000.000.000-00", Roles.USER);
+        CustomUser createdCustomUser =  userRepository.save(customUser);
+
+        DocumentDTO documentDTO = new DocumentDTO("Name", createdDocType.getId(), createdCustomUser, 1000L, LocalDateTime.now(), "No OBS");
+        Document document = documentService.createDocument(documentDTO);
+
+        documentService.deleteDocument(document.getId());
+
+        Optional<Document> deletedOptionalDocument = documentRepository.findById(document.getId());
+
+        Assertions.assertFalse(deletedOptionalDocument.isPresent());
+    }
+
+    @Test
+    public void shouldNotDeleteAUnexistentDocument() throws BaseException {
+        Assertions.assertThrows(ResourceNotFoundException.class, ()-> documentService.deleteDocument(1L));
     }
 
     @Test

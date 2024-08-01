@@ -142,4 +142,13 @@ public class DocumentController {
 
         return this.getMyDocumentById(id, documentId, model, request);
     }
+
+    @DeleteMapping("/myDocs/{id}/{documentId}/deleteDoc")
+    public String deleteDocument(@PathVariable Long id, @PathVariable Long documentId,  Model model, HttpServletRequest request) throws BaseException {
+        userService.sameUserOrAdmin(id, request);
+
+        documentService.deleteDocument(documentId);
+
+        return this.getMyDocuments(, 0,null, model, request);
+    }
 }

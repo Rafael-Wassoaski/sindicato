@@ -1,5 +1,6 @@
-package com.rafaelwassoaski.sindicato.service.secutiry;
+package com.rafaelwassoaski.sindicato.service;
 
+import com.rafaelwassoaski.sindicato.service.secutiry.JWTAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,20 +10,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.test.context.ActiveProfiles;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!test")
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("test")
+public class WebSecurityConfigTest extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JWTAuthFilter jwtFilter;
@@ -34,27 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/",
-                        "/home",
-                        "/js/**",
-                        "/css/**",
-                        "/users/login",
-                        "/users/authenticate",
-                        "/users/newUser",
-                        "/users/create")
-                .permitAll()
-
                 .anyRequest()
-                .authenticated()
+                .permitAll();
 
-                .and()
-                .formLogin()
-                .loginPage("/users/login")
-                .defaultSuccessUrl("/documents/allDocuments", true);
         http
                 .cors().and()
-                .csrf().disable()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf().disable();
     }
 
 
