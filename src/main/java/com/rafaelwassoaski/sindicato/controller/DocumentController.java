@@ -53,7 +53,7 @@ public class DocumentController {
         return "documents/Documents";
     }
 
-    @GetMapping("/allDocuments/")
+    @GetMapping("/allDocuments")
     public String getAllDocuments(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "search", required = false) String search, Model model, HttpServletRequest request) throws BaseException {
         userService.userIsAdmin(request);
 
@@ -149,6 +149,6 @@ public class DocumentController {
 
         documentService.deleteDocument(documentId);
 
-        return this.getMyDocuments(, 0,null, model, request);
+        return this.getMyDocuments(id, 0,null, model, request);
     }
 }

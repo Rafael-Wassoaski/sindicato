@@ -17,7 +17,7 @@
         <form method="post" th:action="@{/documents/myDocs/{id}/{docId}/update (id=${#authentication.getPrincipal().getId()},docId=${document.id})}">
             <button type="submit" name="submit" value="value" class="link-button">Atualizar</button>
         </form> |
-            <button th:onclick="deleteDocument([[${document.id}]])" class="link-button">Deletar</button>
+            <button th:onclick="deleteDocument([[${document.id}]],[[${document.documentCustomUser.id}]])" class="link-button">Deletar</button>
         <div>
             <p th:text="'Nome do documento: '+ ${document.name}" class="documentCategory"></p>
             <p th:text="'Observações: ' + ${document.obs}" class="documentCategory"></p>
