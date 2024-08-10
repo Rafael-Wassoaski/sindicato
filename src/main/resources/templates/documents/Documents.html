@@ -5,8 +5,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Sindicato</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/documents.css}">
-    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/sortable-table.css}">
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/css/documents.css}">
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/css/sortable-table.css}">
     <script th:src="@{/js/sortable-table.js}"></script>
     <script src='/main.js'></script>
 </head>
@@ -83,11 +83,14 @@
             </tbody>
         </table>
 
-        <a href="#">&laquo;</a>
-        <div class="pagination" th:each="i: ${#numbers.sequence(0, pages)}">
-            <a th:text="${i + 1}" th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${i})}"></a>
+        <div class="pagination">
+            <a th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=1)}">&laquo; </a>
+            <div th:each="i: ${#numbers.sequence(0, pages)}">
+                <a th:text="${i + 1}" th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${i})}"></a>
+            </div>
+            <a th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${pages})}"> &raquo;</a>
         </div>
-        <a href="#">&raquo;</a>
+
     </div>
 
     <div th:unless="${not #lists.isEmpty(documents)}">

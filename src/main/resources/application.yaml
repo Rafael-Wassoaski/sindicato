@@ -8,6 +8,8 @@ spring:
   devtools:
     restart:
       enabled: true
+  thymeleaf:
+    cache: false
 
 logging:
   level:

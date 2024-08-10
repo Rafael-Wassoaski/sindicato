@@ -49,6 +49,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                     customUser = userServiceImplementation.findUserByEmail(username);
 
                 } catch (ResourceNotFoundException e) {
+                    CookiesUtils.removeTokenCookie(response);
                     throw new RuntimeException(e);
                 }
 

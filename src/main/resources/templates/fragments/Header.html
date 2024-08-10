@@ -26,11 +26,11 @@
                          <a th:if="${#authentication.getPrincipal().isAdmin()}"
                             th:href="@{/documents/allDocuments?page=0}">Todos os documentos</a>
                       </span>
-                        <span class="navigation-links-text1">
+                        <span class="navigation-links-text1 link-button">
                         <a th:href="@{/documents/myDocs/{id}?page=0(id=${#authentication.getPrincipal().getId()})}">Meus
                         documentos</a>
                       </span>
-                        <span class="navigation-links-text2">
+                        <span class="navigation-links-text2 link-button">
                         <a th:href="@{/documents/create}">Novo documento</a>
                       </span>
                     </div>

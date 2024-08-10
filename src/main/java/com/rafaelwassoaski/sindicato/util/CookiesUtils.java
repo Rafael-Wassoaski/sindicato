@@ -2,6 +2,7 @@ package com.rafaelwassoaski.sindicato.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class CookiesUtils {
@@ -23,4 +24,16 @@ public class CookiesUtils {
 
         return Optional.of(token);
     }
+
+    public static void removeTokenCookie(HttpServletResponse response) {
+        if (response != null) {
+            Cookie cookie = new Cookie("token", null);
+            cookie.setMaxAge(0);
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
+    }
+
 }
