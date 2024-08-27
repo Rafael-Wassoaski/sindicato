@@ -5,7 +5,7 @@
 
 table.sortable td,
 table.sortable th {
-  padding: 0.125em 0.25em;
+  padding: 1.125em 1.25em;
   width: 8em;
 }
 
@@ -98,4 +98,8 @@ table.sortable th:not([aria-sort]) button:hover span::after {
   color: currentcolor;
   font-size: 100%;
   top: 0;
+}
+
+table{
+    padding: 10px;
 }

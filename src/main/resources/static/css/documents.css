@@ -28,3 +28,11 @@
  .linkDiv:hover{
     color: black;
  }
+
+ .document-component{
+    padding: 5px;
+ }
+
+.document-creation{
+    text-align: center;
+}

@@ -9,24 +9,36 @@
     <script src='/main.js'></script>
 </head>
 <body>
-    <form action="#" th:action="@{/documents/newDoc}" th:object="${documentDTO}" method="post">
+    <form action="#" th:action="@{/documents/newDoc}" th:object="${documentDTO}" method="post" class="document-creation">
         <div th:replace="fragments/Header"></div>
 
-        <p>Nome do usuário: </p>
-        <p th:text="*{documentCustomUser.name}" class="p-2 bd-highlight"></p>
+        <div class="document-component">
+            <p>Nome do usuário: </p>
+            <p th:text="*{documentCustomUser.name}" class="p-2 bd-highlight"></p>
+        </div>
 
-        <label for="docType">Tipo do documento: </label>
-        <select th:field="*{documentTypeId}" name="docType" >
-            <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"/>
-        </select>
 
-        <label for="value">Valor</label>
-        <input type="number" name="value" th:field="*{documentValue}"/>
+        <div class="document-component">
+            <label for="docType">Tipo do documento: </label>
+            <select th:field="*{documentTypeId}" name="docType" >
+                <option th:each="docType : ${documentTypes}" th:value="${docType.id}" th:text="${docType.name}"/>
+            </select>
+        </div>
 
-        <label for="obs">OBS</label>
-        <textarea  type="te" name="obs" th:field="*{obs}"/>
 
-        <input type="submit" value="Cadastrar">
+        <div class="document-component">
+            <label for="value">Valor</label>
+            <input type="number" name="value" th:field="*{documentValue}"/>
+        </div>
+
+        <div class="document-component">
+            <label for="obs">OBS</label>
+            <textarea  type="te" name="obs" th:field="*{obs}"/>
+        </div>
+
+        <div class="document-component">
+            <input type="submit" value="Cadastrar">
+        </div>
     </form>
 </body>
 

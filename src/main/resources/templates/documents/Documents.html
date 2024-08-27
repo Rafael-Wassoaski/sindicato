@@ -71,11 +71,8 @@
                         <td th:text="${document.obs}"></td>
                         <td th:text="${document.documentValue}"></td>
 
-                        <!--                </div>-->
-                        <!--                <div class="d-flex flex-row bd-highlight">-->
                         <td th:text="${document.createdAt}"></td>
                         <td th:text="${document.documentCustomUser.name}"></td>
-                        <!--                </div>-->
                         <td> <a class="linkDiv"
                                 th:href="@{/documents/myDocs/{id}/{docId}(id=${#authentication.getPrincipal().getId()},docId=${document.id})}">Acessar</a>
                         </td>
@@ -83,10 +80,11 @@
             </tbody>
         </table>
 
-        <div class="pagination">
+        <div class="pagination" th:if="${not #lists.isEmpty(documents)}">
             <a th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=1)}">&laquo; </a>
             <div th:each="i: ${#numbers.sequence(0, pages)}">
                 <a th:text="${i + 1}" th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${i})}"></a>
+                <span style="display:inline-block; width: 1px;"></span>
             </div>
             <a th:href="@{/documents/myDocs/{id}(id=${#authentication.getPrincipal().getId()},page=${pages})}"> &raquo;</a>
         </div>
